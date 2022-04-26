@@ -1,0 +1,24 @@
+easy_admin:
+  entities:
+    Article:
+      class: App\Entity\Article
+      form:
+        fields:
+          - { property: "title", label: "Titre" }
+          - { property: "content", label: "Contenu" }
+          - { property: "imageFile", type: "file", label: "Ajouter une image" }
+          - { property: "category", label: "Catégorie" }
+          - { property: "createdAt", label: "Date d'ajout" }
+
+      list:
+        actions:
+          - { name: 'edit', icon: 'pencil', label: false, css_class: 'btn btn-primary' }
+          - { name: 'delete', icon: 'trash', label: false, css_class: 'btn btn-danger' }
+          
+        fields:
+          - { property: "title", label: "Titre" }
+          - { property: "content", label: "Contenu" }
+          - { property: "image", type: "image", base_path: "images/articles/" }
+          - { property: "category", label: "Catégorie" }
+          - { property: "createdAt", label: "Date d'ajout", format: "d/m/Y à H:i:s" }
+          - { property: "updatedAt", label: "Dernière modification", format: "d/m/Y à H:i:s" }  

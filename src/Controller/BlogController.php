@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\Contact;
 use App\Form\ArticleType;
+use App\Form\ContactType;
 use App\Form\RechercheType;
+use App\Notification\ContactNotification;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -98,6 +101,31 @@ class BlogController extends AbstractController
         return $this->render("blog/form.html.twig", [
             'editMode' => $article->getId() !== null,
             'formArticle' => $form->createView()    // createView() renvoie un objet pour afficher le formulaire
+        ]);
+    }
+
+    /**
+     * @Route("/blog/contact", name="blog_contact")
+     */
+    public function contact(Request $request, EntityManagerInterface $manager, ContactNotification $cn)
+    {
+        $contact = new Contact;
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $manager->persist($contact);
+            $manager->flush();
+            $cn->notify($contact);
+            $this->addFlash('success', 'Votre message a bien été envoyé !');
+            // addFlash() permet de créer des msg de notifications
+            // elle prend en param le type et le msg
+            return $this->redirectToRoute('blog_contact');
+            // permet de recharger la page et vider les champs du form
+        }
+        return $this->render("blog/contact.html.twig", [
+            'formContact' => $form->createView()
         ]);
     }
 }

@@ -12,7 +12,8 @@
 				dans la catégorie
 				{{ article.category.title }}</div>
 			<div class="content">
-				<img src="{{ article.image }}" alt="">
+				<img src="{{ asset('images/articles/' ~ article.image) }}" alt="">
+				{# asset() permet de récupérer un fichier dans le dossier public\ #}
 				{{ article.content|raw }}
 			</div>
 		</article>

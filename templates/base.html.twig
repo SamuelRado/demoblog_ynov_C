@@ -30,7 +30,10 @@
 						<a class="nav-link active" aria-current="page" href="{{ path('home') }}">Accueil</a>
 						<a class="nav-link active" href="{{ path('app_blog') }}">Liste des articles</a>
 						<a class="nav-link active" href="{{ path('blog_create') }}">Nouvel article</a>
-						<a class="nav-link disabled">Disabled</a>
+						{# is_granted() permet de vérifier un rôle de l'utilisateur #}
+						{% if is_granted('ROLE_ADMIN') %}
+							<a href="{{ path('easyadmin') }}" class="nav-link active">BACKOFFICE</a>
+						{% endif %}
 					</div>
 				</div>
 			</div>
